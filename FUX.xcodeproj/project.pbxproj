@@ -10,6 +10,10 @@
 		6CD3DFBD1A84961D0071C248 /* FUX.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CD3DFBC1A84961D0071C248 /* FUX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6CD3DFC31A84961D0071C248 /* FUX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CD3DFB71A84961D0071C248 /* FUX.framework */; };
 		6CD3DFCA1A84961D0071C248 /* FUXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3DFC91A84961D0071C248 /* FUXTests.swift */; };
+		6CD3DFD41A84973E0071C248 /* FUXEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3DFD31A84973E0071C248 /* FUXEngine.swift */; };
+		6CD3DFD81A8497490071C248 /* FUXCombinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3DFD51A8497490071C248 /* FUXCombinators.swift */; };
+		6CD3DFD91A8497490071C248 /* FUXData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3DFD61A8497490071C248 /* FUXData.swift */; };
+		6CD3DFDA1A8497490071C248 /* FUXEasingCombinators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3DFD71A8497490071C248 /* FUXEasingCombinators.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +33,10 @@
 		6CD3DFC21A84961D0071C248 /* FUXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FUXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CD3DFC81A84961D0071C248 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6CD3DFC91A84961D0071C248 /* FUXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUXTests.swift; sourceTree = "<group>"; };
+		6CD3DFD31A84973E0071C248 /* FUXEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FUXEngine.swift; sourceTree = "<group>"; };
+		6CD3DFD51A8497490071C248 /* FUXCombinators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FUXCombinators.swift; sourceTree = "<group>"; };
+		6CD3DFD61A8497490071C248 /* FUXData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FUXData.swift; sourceTree = "<group>"; };
+		6CD3DFD71A8497490071C248 /* FUXEasingCombinators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FUXEasingCombinators.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				6CD3DFBC1A84961D0071C248 /* FUX.h */,
+				6CD3DFD31A84973E0071C248 /* FUXEngine.swift */,
+				6CD3DFD61A8497490071C248 /* FUXData.swift */,
+				6CD3DFD51A8497490071C248 /* FUXCombinators.swift */,
+				6CD3DFD71A8497490071C248 /* FUXEasingCombinators.swift */,
 				6CD3DFBA1A84961D0071C248 /* Supporting Files */,
 			);
 			path = FUX;
@@ -209,6 +221,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CD3DFDA1A8497490071C248 /* FUXEasingCombinators.swift in Sources */,
+				6CD3DFD41A84973E0071C248 /* FUXEngine.swift in Sources */,
+				6CD3DFD91A8497490071C248 /* FUXData.swift in Sources */,
+				6CD3DFD81A8497490071C248 /* FUXCombinators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +335,7 @@
 		6CD3DFCE1A84961D0071C248 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -328,12 +345,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		6CD3DFCF1A84961D0071C248 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -395,6 +414,7 @@
 				6CD3DFCF1A84961D0071C248 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6CD3DFD01A84961D0071C248 /* Build configuration list for PBXNativeTarget "FUXTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +423,7 @@
 				6CD3DFD21A84961D0071C248 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
