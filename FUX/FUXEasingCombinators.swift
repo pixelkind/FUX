@@ -251,6 +251,22 @@ var easeElasticPValue: Float = 0.3
 var easeElasticSValue: Float = 0.3 / 4
 var easeElasticAValue : Float = 1
 
+public func setEaseElasticPValue(value: Float) {
+    easeElasticPValue = value
+    if easeElasticAValue < 1 {
+        easeElasticSValue = easeElasticPValue / 4
+    } else {
+        easeElasticSValue = easeElasticPValue / (Float(M_PI) * 2) * asinf(1 / easeElasticAValue)
+    }
+}
+
+public func setEaseElasticAValue(value: Float) {
+    if easeElasticAValue >= 1 {
+        easeElasticAValue = value
+        easeElasticSValue = easeElasticPValue / (Float(M_PI) * 2) * asinf(1 / easeElasticAValue)
+    }
+}
+
 public func easeInElastic(tween: FUXTween) -> FUXTween {
     return FUXTween.Easing(Box(tween)) { time in
         if time == 0 {
