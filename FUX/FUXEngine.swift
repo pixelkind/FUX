@@ -10,11 +10,11 @@ import UIKit
 import QuartzCore
 
 infix operator + { associativity left}
-public func + (l: FUXEngine, r: FUXTween) -> FUXTweenStorage {
+public func + (l: FUXEngine, r: FUXTween) -> FUXTween {
     return l.addTween(r)
 }
 
-public class FUXTweenStorage {
+class FUXTweenStorage {
     let tween: FUXTween
     var totalRunningTime: Float = 0
     var currentTime: Float = 0
@@ -36,19 +36,19 @@ public class FUXEngine: NSObject {
         super.init()
     }
 
-    public func addTween(tween: FUXTween) -> FUXTweenStorage {
+    public func addTween(tween: FUXTween) -> FUXTween {
         let storedTween = FUXTweenStorage(tween)
         _tweens.append(storedTween)
 
         if (_tweens.count > 0 && !_isRunning) {
             setupDisplayLink()
         }
-        return storedTween
+        return tween
     }
     
     private func setupDisplayLink() {
         _displayLink = CADisplayLink(target: self, selector: Selector("update:"))
-        _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         _isRunning = true
     }
 
@@ -90,7 +90,7 @@ public class FUXEngine: NSObject {
                 let checkedTime = fminf(1, fmaxf(0, time))
                 storedTween.currentRelativeTime = checkedTime
             case .Easing(let boxedTween, let easing):
-                storedTween.currentTweenValue = easing(storedTween.currentRelativeTime)
+                storedTween.currentTweenValue = easing(storedTween.currentTweenValue)
                 parseTween(boxedTween.unbox, storedTween)
             case .Delay(let delay, let boxedTween):
                 if storedTween.totalRunningTime > delay {
