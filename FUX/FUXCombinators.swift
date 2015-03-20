@@ -80,3 +80,11 @@ public func constraintValue(#view: UIView, #constraint: NSLayoutConstraint, #con
     let change = constant - constraint.constant
     return FUXValue.Value({ tweenValue in constraint.constant = from + change * CGFloat(tweenValue); view.layoutIfNeeded() })
 }
+
+public func viewSizeValue(#view: UIView, #to: CGSize) -> FUXValue {
+    let from = view.frame.size
+    let change = CGSize(width: to.width - from.width, height: to.height - from.height)
+    return FUXValue.Value({ tweenValue in
+        view.frame.size.width = from.width + change.width * CGFloat(tweenValue)
+        view.frame.size.height = from.height + change.height * CGFloat(tweenValue) })
+}

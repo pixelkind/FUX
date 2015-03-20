@@ -10,7 +10,7 @@ import Foundation
 
 public class Box<T> {
     let unbox: T
-    init(_ value: T) { self.unbox = value }
+    public init(_ value: T) { self.unbox = value }
 }
 
 public enum FUXTween {

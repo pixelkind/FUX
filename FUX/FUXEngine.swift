@@ -22,6 +22,10 @@ class FUXTweenStorage {
     var currentTweenValue: Float = 0
     var speed: Float = 1
     var isFinished = false
+    var repeatCount: Int = 0
+    var repeatTotal: Int = 0
+    var yoyo = false
+    var speedSet = false
     
     init(_ value: FUXTween) { self.tween = value }
 }
@@ -62,7 +66,7 @@ public class FUXEngine: NSObject {
         var index = 0
         for storedTween in _tweens {
             if !storedTween.isFinished {
-                storedTween.totalRunningTime += Float(displayLink.duration)
+                storedTween.totalRunningTime += Float(displayLink.duration) * Float(displayLink.frameInterval) * fabsf(storedTween.speed)
                 storedTween.currentTweenValue = storedTween.currentRelativeTime
                 parseTween(storedTween.tween, storedTween)
                 index++
@@ -81,28 +85,72 @@ public class FUXEngine: NSObject {
         switch tween {
             case .Tween(let duration, let value):
                 parseValue(value, storedTween.currentTweenValue)
-                if storedTween.currentRelativeTime == 1 {
-                    storedTween.isFinished = true
-                    //need repeat, yoyo, speed, ...
+                var runFinished = false
+                if storedTween.currentRelativeTime == 1 && storedTween.speed > 0 {
+                    runFinished = true
+                    if storedTween.repeatTotal > 0 {
+                        storedTween.repeatCount++
+                    }
+                } else if storedTween.currentRelativeTime == 0 && storedTween.speed < 0 {
+                    runFinished = true
                 }
-                storedTween.currentTime += Float(_displayLink.duration)
-                let time = (storedTween.currentTime) / duration
+                
+                storedTween.currentTime += Float(_displayLink.duration) * Float(_displayLink.frameInterval) * storedTween.speed
+                let time = fmaxf(0, storedTween.currentTime) / duration
                 let checkedTime = fminf(1, fmaxf(0, time))
                 storedTween.currentRelativeTime = checkedTime
-            case .Easing(let boxedTween, let easing):
-                storedTween.currentTweenValue = easing(storedTween.currentTweenValue)
-                parseTween(boxedTween.unbox, storedTween)
-            case .Delay(let delay, let boxedTween):
-                if storedTween.totalRunningTime > delay {
-                    parseTween(boxedTween.unbox, storedTween)
+                
+                if runFinished {
+                    if !storedTween.yoyo {
+                        if storedTween.repeatCount == storedTween.repeatTotal {
+                            storedTween.isFinished = true
+                        } else {
+                            storedTween.totalRunningTime = 0
+                            storedTween.currentRelativeTime = 0
+                            storedTween.currentTime = 0
+                        }
+                    } else {
+                        if storedTween.currentRelativeTime == 1 {
+                            storedTween.speed *= -1
+                            storedTween.currentRelativeTime = 1
+                            storedTween.currentTime = duration
+                        } else {
+                            if storedTween.repeatCount == storedTween.repeatTotal {
+                                storedTween.isFinished = true
+                            }
+                            storedTween.totalRunningTime = 0
+                            storedTween.speed *= -1
+                            storedTween.currentRelativeTime = 0
+                            storedTween.currentTime = 0
+                        }
+                    }
                 }
-            case .OnComplete(let boxedTween, let onComplete):
-                if storedTween.currentRelativeTime == 1 {
-                    onComplete()
-                }
+        case .Easing(let boxedTween, let easing):
+            storedTween.currentTweenValue = easing(storedTween.currentTweenValue)
+            parseTween(boxedTween.unbox, storedTween)
+        case .Delay(let delay, let boxedTween):
+            if storedTween.totalRunningTime > delay {
                 parseTween(boxedTween.unbox, storedTween)
-            default:
-                println("FUX Tween Engine")
+            }
+        case .OnComplete(let boxedTween, let onComplete):
+            if storedTween.currentRelativeTime == 1 {
+                onComplete()
+            }
+            parseTween(boxedTween.unbox, storedTween)
+        case .Repeat(let repeatTotal, let boxedTween):
+            storedTween.repeatTotal = repeatTotal
+            parseTween(boxedTween.unbox, storedTween)
+        case .YoYo(let boxedTween):
+            storedTween.yoyo = true
+            parseTween(boxedTween.unbox, storedTween)
+        case .Speed(let speed, let boxedTween):
+            if !storedTween.speedSet {
+                storedTween.speedSet = true
+                storedTween.speed = speed
+            }
+            parseTween(boxedTween.unbox, storedTween)
+        default:
+            println("FUX Tween Engine")
         }
     }
     
