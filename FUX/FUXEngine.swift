@@ -50,6 +50,14 @@ public class FUXEngine: NSObject {
         return tween
     }
     
+    public func pause() {
+        stopDisplayLink()
+    }
+    
+    public func resume() {
+        setupDisplayLink()
+    }
+    
     private func setupDisplayLink() {
         _displayLink = CADisplayLink(target: self, selector: Selector("update:"))
         _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
