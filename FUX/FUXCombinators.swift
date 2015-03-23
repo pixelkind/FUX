@@ -82,9 +82,11 @@ public func constraintValue(#view: UIView, #constraint: NSLayoutConstraint, #con
 }
 
 public func viewSizeValue(#view: UIView, #to: CGSize) -> FUXValue {
-    let from = view.frame.size
+    let from = view.frame
     let change = CGSize(width: to.width - from.width, height: to.height - from.height)
     return FUXValue.Value({ tweenValue in
-        view.frame.size.width = from.width + change.width * CGFloat(tweenValue)
-        view.frame.size.height = from.height + change.height * CGFloat(tweenValue) })
+        view.frame.origin.x = from.origin.x
+        view.frame.origin.y = from.origin.y
+        view.frame.size.width = from.size.width + change.width * CGFloat(tweenValue)
+        view.frame.size.height = from.size.height + change.height * CGFloat(tweenValue) })
 }
