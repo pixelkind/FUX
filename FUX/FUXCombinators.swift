@@ -41,6 +41,18 @@ public func createDelayedTween(#duration: Float, #delay: Float, #value: FUXValue
     return FUXTween.Delay(delay, Box(FUXTween.Tween(duration, value)))
 }
 
+public func yoyo(#tween: FUXTween) -> FUXTween {
+    return FUXTween.YoYo(Box(tween))
+}
+
+public func speed(#speed: Float, #tween: FUXTween) -> FUXTween {
+    return FUXTween.Speed(speed, Box(tween))
+}
+
+public func repeat(#repeat: Int, #tween: FUXTween) -> FUXTween {
+    return FUXTween.Repeat(repeat, Box(tween))
+}
+
 public func createValue(value: Float -> ()) -> FUXValue {
     return FUXValue.Value(value)
 }
