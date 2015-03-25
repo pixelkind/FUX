@@ -1,5 +1,5 @@
 # FUX
-A functional tweening library for iOS written in Swift (very early stage)
+A functional tweening library for iOS written in Swift
 
 After reading the great book about [Functional Programming in Swift](http://www.objc.io/books/) from the makers of objc.io during my travels through south-east-asia I was inspired to play around with functional programming and started writing my own small library.
 And because I always write a tweening library sooner or later (see [GSTween](http://github.com/pixelkind/GSTween)) I started to write a functional tweening library for Swift. It uses a deep embedded purely functional data structure and an engine to run the tweens (for more infos about this kind of data structures have a look at the Diagrams Chapter in the book).
