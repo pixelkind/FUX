@@ -114,6 +114,14 @@ public func viewScaleValue(#view: UIView, #from: CGFloat, #to: CGFloat) -> FUXVa
     })
 }
 
+public func viewRotationValue(#view: UIView, #from: CGFloat, #to: CGFloat) -> FUXValue {
+    let change = to - from
+    return FUXValue.Value({ tweenValue in
+        let rotation = from + change * CGFloat(tweenValue)
+        view.transform = CGAffineTransformMakeRotation(rotation)
+    })
+}
+
 public func backgroundColor(#view: UIView, #to: UIColor) -> FUXValue {
     let from = view.backgroundColor!
     return FUXValue.Value({ tweenValue in
