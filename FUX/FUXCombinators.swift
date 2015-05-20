@@ -96,6 +96,16 @@ public func viewSizeValue(#view: UIView, #to: CGSize) -> FUXValue {
         view.frame.size.height = from.size.height + change.height * CGFloat(tweenValue) })
 }
 
+public func viewPositionValue(#view: UIView, #to: CGPoint) -> FUXValue {
+    let from = view.frame
+    let change = CGPoint(x: to.x - from.origin.x, y: to.y - from.origin.y)
+    return FUXValue.Value({ tweenValue in
+        view.frame.origin.x = from.origin.x + change.x * CGFloat(tweenValue)
+        view.frame.origin.y = from.origin.y + change.y * CGFloat(tweenValue)
+        view.frame.size.width = from.size.width
+        view.frame.size.height = from.size.height })
+}
+
 public func viewScaleValue(#view: UIView, #from: CGFloat, #to: CGFloat) -> FUXValue {
     let change = to - from
     return FUXValue.Value({ tweenValue in
