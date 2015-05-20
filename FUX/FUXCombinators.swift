@@ -65,13 +65,6 @@ public func fromToPoint(#from: CGPoint, #to: CGPoint, #valueFunc: CGPoint -> ())
     return FUXValue.Value({ tweenValue in valueFunc(CGPoint(x: from.x + (to.x - from.x) * CGFloat(tweenValue), y: from.y + (to.y - from.y) * CGFloat(tweenValue))) })
 }
 
-// this is not working :(
-/*
-public func fromToValue(inout value: Float, #from: Float, #to: Float) -> FUXValue {
-    return FUXValue.Value({ tweenValue in value = from + (to - from) * tweenValue; println("\(tweenValue) - \(from) - \(to) -> \(value)") })
-}
-*/
-
 public func fromToValueFunc(#from: Float, #to: Float, valueFunc: Float -> ()) -> FUXValue {
     return FUXValue.Value({ tweenValue in valueFunc(from + (to - from) * tweenValue) })
 }
@@ -101,6 +94,14 @@ public func viewSizeValue(#view: UIView, #to: CGSize) -> FUXValue {
         view.frame.origin.y = from.origin.y
         view.frame.size.width = from.size.width + change.width * CGFloat(tweenValue)
         view.frame.size.height = from.size.height + change.height * CGFloat(tweenValue) })
+}
+
+public func viewScaleValue(#view: UIView, #from: CGFloat, #to: CGFloat) -> FUXValue {
+    let change = to - from
+    return FUXValue.Value({ tweenValue in
+        let scale = from + change * CGFloat(tweenValue)
+        view.transform = CGAffineTransformMakeScale(scale, scale)
+    })
 }
 
 public func backgroundColor(#view: UIView, #to: UIColor) -> FUXValue {
