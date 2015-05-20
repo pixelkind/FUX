@@ -26,8 +26,12 @@ class FUXTweenStorage {
     var repeatTotal: Int = 0
     var yoyo = false
     var speedSet = false
+    var name = ""
     
-    init(_ value: FUXTween) { self.tween = value }
+    init(_ value: FUXTween, _ name: String) {
+        self.tween = value
+        self.name = name
+    }
 }
 
 public class FUXEngine: NSObject {
@@ -40,14 +44,28 @@ public class FUXEngine: NSObject {
         super.init()
     }
 
-    public func addTween(tween: FUXTween) -> FUXTween {
-        let storedTween = FUXTweenStorage(tween)
+    public func addTween(tween: FUXTween, name: String = "") -> FUXTween {
+        let storedTween = FUXTweenStorage(tween, name)
         _tweens.append(storedTween)
 
         if (_tweens.count > 0 && !_isRunning) {
             setupDisplayLink()
         }
         return tween
+    }
+    
+    public func removeTweenByName(name: String) {
+        var index = 0
+        for tween in _tweens {
+            if tween.name == name {
+                _tweens.removeAtIndex(index)
+                break
+            }
+            index++
+        }
+        if _tweens.count == 0 && _isRunning {
+            stopDisplayLink()
+        }
     }
     
     public func pause() {
