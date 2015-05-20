@@ -1,6 +1,8 @@
 # FUX
 A functional tweening library for iOS written in Swift
 
+![Smiley Tween](https://github.com/pixelkind/FUX/blob/master/Examples/Screenshots/SmileyTween.gif?raw=true)
+
 After reading the great book about [Functional Programming in Swift](http://www.objc.io/books/) from the makers of objc.io during my travels through south-east-asia I was inspired to play around with functional programming and started writing my own small library.
 And because I always write a tweening library sooner or later (see [GSTween](http://github.com/pixelkind/GSTween)) I started to write a functional tweening library for Swift. It uses a deep embedded purely functional data structure and an engine to run the tweens (for more infos about this kind of data structures have a look at the Diagrams Chapter in the book).
 
@@ -34,6 +36,35 @@ let valueTween = FUXTween.Tween(10, FUXValue.Value({ tweenValue in println("Twee
 engine.addTween(valueTween)
 ```
 
-More code examples and documentation will follow soon...
+Next I will show you three different tweens with a linear easing, ease out sine and ease out bounce (there are many more easings supported). First we create a simple tween that goes just from left to right (the animal-view is placed at x = 10 and y = 100):
+
+![Smiley Tween](https://github.com/pixelkind/FUX/blob/master/Examples/Screenshots/AnimalTweenLinear.gif?raw=true)
+
+```swift
+let linearTween = 2 ~ viewPositionValue(view: animal, to: CGPoint(x: 320, y: 100))
+engine.addTween(linearTween)
+```
+
+Now we just add an easing Combinator to add a some smooth ease out:
+
+![Smiley Tween](https://github.com/pixelkind/FUX/blob/master/Examples/Screenshots/AnimalTweenOutSine.gif?raw=true)
+
+```swift
+let linearTween = 2 ~ viewPositionValue(view: animal, to: CGPoint(x: 355 - animal.bounds.size.width, y: 100))
+engine.addTween(easeOutSine(linearTween))
+```
+
+And if we change the easing to an ease out bounce this happens:
+
+![Smiley Tween](https://github.com/pixelkind/FUX/blob/master/Examples/Screenshots/AnimalTweenOutBounce.gif?raw=true)
+
+```swift
+let linearTween = 2 ~ viewPositionValue(view: animal, to: CGPoint(x: 355 - animal.bounds.size.width, y: 100))
+engine.addTween(easeOutBounce(linearTween))
+```
+
+More code examples and documentation will follow soon and can be found on my blog [www.garrit.io](https://www.garrit.io)...
 
 Feel free to share your ideas and thoughts about this with me...
+
+![Goodbye Tween](https://github.com/pixelkind/FUX/blob/master/Examples/Screenshots/FistTween.gif?raw=true)
